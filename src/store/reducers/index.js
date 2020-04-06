@@ -1,11 +1,6 @@
-import {produce} from 'immer'
-import deck from './deck'
+import {combineReducers} from 'redux'
+import Decks from './deck'
 
-export default function reducer(state=deck, action){
-    console.log(state)
-    switch(action.type){
-        default:
-            return state
-    }
-
-}
+export default combineReducers({
+    Decks,
+})

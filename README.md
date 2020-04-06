@@ -2,4 +2,4 @@
 
 1. The game was built  with react, redux,  styled-components
 2. The game is for 1 gamer
-3. Use the commons rules the of game
+3. Use the commons rules of the game

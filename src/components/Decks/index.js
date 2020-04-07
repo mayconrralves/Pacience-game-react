@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import {add,remove} from '../../store/actions/deck'
 
 export  function Decks({decks, remove, add}){
-     
     return <div>
         Decks
     </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import a from './components/Decks'
 
 ReactDOM.render(
   <React.StrictMode>

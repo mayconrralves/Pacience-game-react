@@ -36,7 +36,7 @@ const mapStateToProps = state=>{
     const { Decks, Memory } = state
     return {
         decks: Decks.main,
-        memory: Memory.atualCard,
+        memory: Memory.recurrentCard,
     }
 }
 

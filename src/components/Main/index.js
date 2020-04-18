@@ -27,7 +27,7 @@ const mapStateToProps = state => {
     const {Decks, Memory} = state
     return {
         decks: Decks.field,
-        memory: Memory.recurrentCard
+        memory: Memory
     }
 }
 
@@ -35,7 +35,7 @@ const mapDispatchToProps = dispatch => {
     return {
         addDeck : (stack, cards) => dispatch(add(stack, cards)),
         removeDeck : (stack, index) => dispatch(remove(stack, index)),
-        addMemory : (card) => dispatch(addMemory(card)),
+        addMemory : (card, stack) => dispatch(addMemory(card,stack)),
         removeMemory : () => dispatch(removeMemory()),
     }
 }

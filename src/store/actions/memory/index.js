@@ -1,8 +1,10 @@
 
-export const addMemory = (card) =>{
+export const addMemory = (card, stack,index) =>{
     return {
         type: '@MEMORY/ADD',
         card,
+        stack,
+        index,
     }
 }
 

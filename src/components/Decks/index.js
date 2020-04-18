@@ -20,8 +20,6 @@ export  function Decks({decks, memory, remove, add, addMemory, removeMemory}){
             resetDeck()
         } 
         
-       
-        
     }
     return <div>
             <img src={printCard( decks.stacks1.length > 0 ? 'verso': null)} onClick={drawCard}/>
@@ -36,7 +34,7 @@ const mapStateToProps = state=>{
     const { Decks, Memory } = state
     return {
         decks: Decks.main,
-        memory: Memory.recurrentCard,
+        memory: Memory,
     }
 }
 
@@ -44,7 +42,7 @@ const mapDispatchToProps = dispatch =>{
     return {
         remove: (stack, index) => dispatch(remove(stack,index)),
         add: (stack, cards) => dispatch(add(stack, cards)),
-        addMemory: (card) => dispatch(addMemory(card)),
+        addMemory: (card, stack) => dispatch(addMemory(card, stack)),
         removeMemory: () => dispatch(removeMemory()),
     }
 }

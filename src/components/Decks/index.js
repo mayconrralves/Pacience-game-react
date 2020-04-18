@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import {add,remove} from '../../store/actions/deck'
 import { addMemory, removeMemory } from '../../store/actions/memory'
 import {printCard} from '../../utils'
-export  function Decks({decks, memory, remove, add, addMemory, removeMemory}){
-   
+export  function Decks({decks, memory, removeDeck, addDeck, addMemory, removeMemory}){
+
+    
     const resetDeck = () => {
         if(decks.stacks1.length === 0) {
             add('main/stacks1',[ ...decks.stacks2].reverse())
@@ -40,8 +41,8 @@ const mapStateToProps = state=>{
 
 const mapDispatchToProps = dispatch =>{
     return {
-        remove: (stack, index) => dispatch(remove(stack,index)),
-        add: (stack, cards) => dispatch(add(stack, cards)),
+        removeDeck: (stack, index) => dispatch(remove(stack,index)),
+        addDeck: (stack, cards) => dispatch(add(stack, cards)),
         addMemory: (card, stack) => dispatch(addMemory(card, stack)),
         removeMemory: () => dispatch(removeMemory()),
     }

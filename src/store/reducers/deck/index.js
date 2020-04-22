@@ -18,6 +18,12 @@ export default function reducer(state=deck, action){
                 const [main, deck] = stack.split('/')
                 draftState[main][deck].splice(index,draftState[main][deck].length-index )
             })
+        case '@SET_OPEN':
+            return produce(state, draftState=> {
+                const {stack, index, value} = action
+                const [main, deck] = stack.split('/')
+                draftState[main][deck][index].open = value
+            })
         default:
             return state
     }

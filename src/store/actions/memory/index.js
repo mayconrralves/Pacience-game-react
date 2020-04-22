@@ -1,10 +1,11 @@
 
-export const addMemory = (card, stack,index) =>{
+export const addMemory = (cards,sector, stack,index) =>{
     return {
         type: '@MEMORY/ADD',
-        card,
+        cards,
         stack,
         index,
+        sector
     }
 }
 

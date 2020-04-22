@@ -1,21 +1,30 @@
-import React, {useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import {add,remove} from '../../store/actions/deck'
+import { add,remove, setOpen } from '../../store/actions/deck'
 import { addMemory, removeMemory } from '../../store/actions/memory'
-import {printCard} from '../../utils'
-export  function Decks({decks, memory, removeDeck, addDeck, addMemory, removeMemory}){
+import { printCard } from '../../utils'
+export  function Decks( { decks, memory, removeDeck, addDeck, addMemory, removeMemory, setOpen } ){
 
-    
-    const resetDeck = () => {
+    const changeCard = () => {
+        if(memory.stack){
+            removeMemory()
+            return
+        }
+        else {
+           addMemory([decks.stacks2[decks.stacks2.length-1]], 'main/', 'stacks2', decks.stacks2.length-1)
+        }
+    }
+    const resetDeck = ( ) => {
         if(decks.stacks1.length === 0) {
-            add('main/stacks1',[ ...decks.stacks2].reverse())
-            remove('main/stacks2',0)
+            addDeck( 'main/stacks1', [ ...decks.stacks2 ].reverse() )
+            removeDeck('main/stacks2',0)
         }
     }
     const drawCard = () => {
-        if(decks.stacks1.length-1 !== -1){
-            add('main/stacks2', [decks.stacks1[decks.stacks1.length-1]])
-            remove('main/stacks1', decks.stacks1.length-1)
+        if( decks.stacks1.length !== 0 ){
+            addDeck( 'main/stacks2', [decks.stacks1[decks.stacks1.length-1] ] )
+            removeDeck( 'main/stacks1', decks.stacks1.length - 1 )
+            setOpen('main/stacks2', decks.stacks2.length, true)
         }
         else{
             resetDeck()
@@ -23,9 +32,9 @@ export  function Decks({decks, memory, removeDeck, addDeck, addMemory, removeMem
         
     }
     return <div>
-            <img src={printCard( decks.stacks1.length > 0 ? 'verso': null)} onClick={drawCard}/>
-            <img src={printCard(decks.stacks2.length >= 0 ? decks.stacks2[decks.stacks2.length-1] : null)} 
-                onClick={null}
+            <img src= { printCard( decks.stacks1.length > 0 ? 'verso': null ) } onClick={drawCard} />
+            <img src= { printCard( decks.stacks2.length >= 0 ? decks.stacks2[decks.stacks2.length-1] : null ) } 
+                onClick={ changeCard }
             />
     </div>
 }
@@ -41,12 +50,12 @@ const mapStateToProps = state=>{
 
 const mapDispatchToProps = dispatch =>{
     return {
-        removeDeck: (stack, index) => dispatch(remove(stack,index)),
-        addDeck: (stack, cards) => dispatch(add(stack, cards)),
-        addMemory: (card, stack) => dispatch(addMemory(card, stack)),
-        removeMemory: () => dispatch(removeMemory()),
+        removeDeck: ( stack, index ) => dispatch( remove( stack, index ) ),
+        addDeck: ( stack, cards ) => dispatch( add( stack, cards ) ),
+        addMemory: ( cards,sector, stack, index ) => dispatch( addMemory( cards, sector, stack, index ) ),
+        removeMemory: () => dispatch( removeMemory( ) ),
+        setOpen: (stack, index, value) => dispatch(setOpen(stack, index, value))
     }
 }
     
-
-export default connect(mapStateToProps, mapDispatchToProps)(Decks)
+export default connect( mapStateToProps, mapDispatchToProps )( Decks )

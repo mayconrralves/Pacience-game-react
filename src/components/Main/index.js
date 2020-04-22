@@ -7,17 +7,21 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
 
     const changeCard = (stack,cardIndex) =>{
         if(memory.stack){
-            if(memory.stack === stack) {
+            if(memory.stack === stack && memory.sector === 'field/') {
                 removeMemory()
                 return
             }
-            if(!Array.isArray(memory.card)){
-                addDeck('field/'+stack, [...decks[memory.stack].slice(memory.index)])
+            if(Array.isArray(memory.cards)){
+                addDeck('field/'+stack, [...memory.cards])
                 removeMemory()
-                removeDeck('field/'+ memory.stack, memory.index)
+                removeDeck(memory.sector+ memory.stack, memory.index)
             }
         } else {
-            addMemory(decks[stack][cardIndex], stack, cardIndex)
+            const recurrent = [...decks[stack].slice(cardIndex, decks[stack].length)]
+            if(recurrent[0].open === false) {
+                return
+            }
+            addMemory(recurrent,'field/', stack, cardIndex)
         }
     }
     const constroyStack = (key)=>{
@@ -57,7 +61,7 @@ const mapDispatchToProps = dispatch => {
     return {
         addDeck : (stack, cards) => dispatch(add(stack, cards)),
         removeDeck : (stack, index) => dispatch(remove(stack, index)),
-        addMemory : (card, stack, index) => dispatch(addMemory(card,stack, index)),
+        addMemory : (cards, sector, stack, index) => dispatch(addMemory(cards, sector, stack, index)),
         removeMemory : () => dispatch(removeMemory()),
     }
 }

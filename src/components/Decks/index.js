@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { add,remove, setOpen } from '../../store/actions/deck'
 import { addMemory, removeMemory } from '../../store/actions/memory'
 import { printCard } from '../../utils'
+import Style from './Style'
+
 export  function Decks( { decks, memory, removeDeck, addDeck, addMemory, removeMemory, setOpen } ){
 
     const changeCard = () => {
@@ -29,14 +31,20 @@ export  function Decks( { decks, memory, removeDeck, addDeck, addMemory, removeM
         else{
             resetDeck()
         } 
-        
     }
-    return <div>
-            <img src= { printCard( decks.stacks1.length > 0 ? 'verso': null ) } onClick={drawCard} />
-            <img src= { printCard( decks.stacks2.length >= 0 ? decks.stacks2[decks.stacks2.length-1] : null ) } 
-                onClick={ changeCard }
-            />
-    </div>
+    return (
+        <Style>
+                <img className="card" 
+                    alt={decks.stacks1.length > 0 ? 'card back of stack1 deck': 'blackground stack1 - End of Deck'} 
+                    src= { printCard( decks.stacks1.length > 0 ? 'verso': null ) }
+                    onClick={drawCard} />
+                <img className="card"
+                    alt={decks.stacks2.length > 0 ? 'card front of stack2 deck': 'blackground stack2 - End of Deck'} 
+                    src= { printCard( decks.stacks2.length >= 0 ? decks.stacks2[decks.stacks2.length-1] : null ) } 
+                    onClick={ changeCard }
+                />
+        </Style>
+    )
 }
 
 const mapStateToProps = state=>{

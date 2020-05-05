@@ -1,18 +1,20 @@
 import React from 'react';
 import {Provider} from 'react-redux'
 import store from './store'
-import Main from './components/Main';
-import Decks from './components/Decks';
-import FinalStacks from './components/FinalStacks';
-
+import Main from './components/Main'
+import Decks from './components/Decks'
+import FinalStacks from './components/FinalStacks'
+import GlobalStyle from './style'
 
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
+      <div>
+       <GlobalStyle />
         <Decks />
-        <Main />
         <FinalStacks/>
+        <Main />
+        
       </div>
     </Provider>
     

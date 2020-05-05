@@ -4,7 +4,7 @@ import fundoCard from '../assets/cards/fundoCard.png';
 export function shuffle(array) {
     let m = array.length, t, i;
   
-    // While there remain elements to shuffle…
+    // As long as there are elements, to shuffle…
     while (m) {
   
       // Pick a remaining element…
@@ -22,7 +22,7 @@ export function shuffle(array) {
   export function importAll(r) {
       return r.keys().map(r);
     }
-  console.log(fundoCard)
+    
    export const cardsImages = {
       copas:  importAll(require.context('../assets/cards/copas/', false, /\.(png|jpe?g|svg)$/)),
       ouros: importAll(require.context('../assets/cards/ouros/', false, /\.(png|jpe?g|svg)$/)),

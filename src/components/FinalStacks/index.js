@@ -3,10 +3,12 @@ import { connect } from 'react-redux'
 import { add, remove } from '../../store/actions/deck'
 import { addMemory, removeMemory } from '../../store/actions/memory'
 import { printCard } from '../../utils'
-export function FinalStacks( { final, memory, addDeck,addMemory, removeDeck, removeMemory } ){
-    const changeCard = ( stack, cardIndex ) =>{
+import Style from './Style'
+
+export function FinalStacks( { final, memory, addDeck, removeDeck, removeMemory } ){
+    const changeCard = ( stack ) =>{
         if(memory.stack){
-            if(memory.stack === stack) {
+            if(memory.sector === 'final/' && memory.stack === stack) {
                 removeMemory()
                 return
             }
@@ -23,20 +25,29 @@ export function FinalStacks( { final, memory, addDeck,addMemory, removeDeck, rem
             //addMemory([...final[stack].slice(cardIndex, final[stack].length-cardIndex)], stack, cardIndex)
         }
     }
-    return <div>
-        <img src={ printCard( final.stacks1.length ? final.stacks1[final.stacks1.length-1] : null ) } 
-             onClick={ ()=> changeCard('stacks1', final.stacks1.length-1) }
-         />
-        <img src={ printCard( final.stacks2.length ? final.stacks2[final.stacks2.length-1] : null ) } 
-            onClick={ ()=> changeCard('stacks2',final.stacks1.length-1) }
-         />
-        <img src={ printCard( final.stacks3.length ? final.stacks3[final.stacks3.length-1] : null ) }
-             onClick={ ()=> changeCard('stacks3',final.stacks1.length-1) } 
-        />
-        <img src={ printCard( final.stacks4.length ? final.stacks4[final.stacks4.length-1] : null ) } 
-             onClick={ ()=> changeCard('stacks4',final.stacks1.length-1) } 
-        />
-    </div>
+    return <Style>
+                <img className="card"
+                    alt="Final Decks - Stack01"
+                    src={ printCard( final.stacks1.length ? final.stacks1[final.stacks1.length-1] : null ) } 
+                    onClick={ ()=> changeCard('stacks1', final.stacks1.length-1) }
+                />
+                <img className="card"
+                    alt="Final Decks - Stack02"
+                    src={ printCard( final.stacks2.length ? final.stacks2[final.stacks2.length-1] : null ) } 
+                    onClick={ ()=> changeCard('stacks2',final.stacks2.length-1) }
+                />
+                <img className="card"
+                    alt="Final Decks - Stack03"
+                    src={ printCard( final.stacks3.length ? final.stacks3[final.stacks3.length-1] : null ) }
+                    onClick={ ()=> changeCard('stacks3',final.stacks3.length-1) } 
+                />
+                <img className="card"
+                    alt="Final Decks - Stack04"
+                    src={ printCard( final.stacks4.length ? final.stacks4[final.stacks4.length-1] : null ) } 
+                    onClick={ ()=> changeCard('stacks4',final.stacks4.length-1) } 
+                />
+            </Style> 
+        
 }
 
 const mapStateToProps = state =>{

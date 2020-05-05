@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {add, remove, } from '../../store/actions/deck'
 import {addMemory, removeMemory} from '../../store/actions/memory'
 import { printCard } from '../../utils'
+import Style from './Style'
 export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemory}){
 
     const changeCard = (stack,cardIndex) =>{
@@ -26,13 +27,16 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
     }
     const constroyStack = (key)=>{
         if(decks[key].length === 0) {
-            return <img src={ printCard(null) }
+            return <img className={"card"} src={ printCard(null) }
+                    alt="background-stack"
                     onClick={() => changeCard(key, 0)}
                     key={ key+'_null' }
              />
         }
         return decks[key].map((card, index)=>{
-            return <img src={ printCard(card.open ? card : 'verso') }
+            return <img className={"card card-" +(index+1)}
+                    alt={"card card-" +(index+1)}
+                    src={ printCard(card.open ? card : 'verso') }
                     onClick={() => changeCard(key, index)}
                     key={ card.naipe + card.number }
              />
@@ -41,12 +45,20 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
     const printStack = () => {
         const keys = Object.keys(decks)
         return keys.map(key=>(
-                        <div key={key}>{constroyStack(key)}</div>
+                    <div key={key}>{constroyStack(key)}</div>
                 ))
     }
-    return <div>
-        {printStack()}
-    </div>
+    const keys = Object.keys(decks)
+    /** Discovery the largest of array and return the value*/
+    const lengthsArray = keys.map((key)=>{
+        return decks[key].length
+    })
+    const maxLengthArray = lengthsArray.reduce((value1, value2)=> {
+        return Math.max(value1, value2)
+    })
+    return <Style theme = {{ length: maxLengthArray }}>
+                     {printStack()}
+            </Style>
 }
 
 const mapStateToProps = state => {

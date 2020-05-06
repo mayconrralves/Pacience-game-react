@@ -6,7 +6,6 @@ import { printCard } from '../../utils'
 import Style from './Style'
 
 export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemory, setOpen}){
-
     /** Return new style's class */
     const cardSelector = (sector, stack, index) => {
         if(memory.sector === sector && memory.stack === stack && memory.index === index) {
@@ -59,7 +58,7 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
              />
         }
         return decks[key].map((card, index)=>{
-            return <img className={"card card-" +(index+1) + " "+ cardSelector('field/', key, index)}
+            return <img className={"card card-" +(index+1) + " " + cardSelector('field/', key, index)}
                     alt={"card card-" +(index+1)}
                     src={ printCard(card.open ? card : 'verso') }
                     onClick={() => changeCard(key, index)}

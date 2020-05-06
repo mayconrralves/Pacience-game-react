@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { add, remove } from '../../store/actions/deck'
+import { add, remove, setOpen } from '../../store/actions/deck'
 import { addMemory, removeMemory } from '../../store/actions/memory'
 import { printCard } from '../../utils'
 import Style from './Style'
 
-export function FinalStacks( { final, memory, addDeck,addMemory, removeDeck, removeMemory } ){
+export function FinalStacks( { final, memory, addDeck,addMemory, removeDeck, removeMemory, setOpen } ){
 
     /** Return new style's class */
     const cardSelector = (sector, stack, index) => {
@@ -26,9 +26,18 @@ export function FinalStacks( { final, memory, addDeck,addMemory, removeDeck, rem
                 return
             }
             if(Array.isArray(memory.cards)){
-                addDeck('final/'+stack, [...memory.cards])
-                removeMemory()
-                removeDeck(memory.sector + memory.stack, memory.index)
+                if(memory.sector === 'field/'){
+                    console.log("open", memory.stack, memory.index)
+                    setOpen(memory.sector + memory.stack, memory.index-1, true)
+                }
+                if(memory.sector !== 'final/'){
+                    addDeck('final/'+stack, [...memory.cards])
+                    removeMemory()
+                    removeDeck(memory.sector + memory.stack, memory.index)
+                }else {
+                    removeMemory()
+                }
+                
             }
         } else {
             if(final[stack].length === 0) {
@@ -75,7 +84,8 @@ const mapDispatchToProps = dispatch =>{
         addDeck: (stack, cards) => dispatch(add(stack, cards)),
         removeDeck: (stack, index) => dispatch(remove(stack, index)),
         addMemory: ( cards,sector, stack, index) => dispatch(addMemory(cards,sector, stack,index)),
-        removeMemory: () => dispatch(removeMemory())
+        removeMemory: () => dispatch(removeMemory()),
+        setOpen: (stack, index, value) => dispatch(setOpen(stack, index, value))
     }
 }
 

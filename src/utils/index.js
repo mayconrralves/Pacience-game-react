@@ -19,6 +19,7 @@ export function shuffle(array) {
     return array;
   }
 
+
   export function importAll(r) {
       return r.keys().map(r);
     }
@@ -42,3 +43,4 @@ export function shuffle(array) {
     const {naipe, number} = memory
     return cardsImages[naipe][number-1]
   }
+    

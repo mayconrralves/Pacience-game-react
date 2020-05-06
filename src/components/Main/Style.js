@@ -24,7 +24,7 @@ export default styled.div`
     width: 1200px;
     height: 600px;
     text-align: center;
-    margin-top: 8px;
+    margin-top: 12px;
     
     div {
         display: inline-block;

@@ -20,5 +20,8 @@ export default createGlobalStyle`
         border-radius: 8px;
         padding: 2px;
     }
+    .selector {
+     border: gray 4px solid;
+ }
 }
 `

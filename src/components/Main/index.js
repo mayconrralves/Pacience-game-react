@@ -1,11 +1,31 @@
 import React from 'react' 
 import { connect } from 'react-redux'
-import {add, remove, } from '../../store/actions/deck'
+import {add, remove, setOpen } from '../../store/actions/deck'
 import {addMemory, removeMemory} from '../../store/actions/memory'
 import { printCard } from '../../utils'
 import Style from './Style'
-export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemory}){
 
+export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemory, setOpen}){
+
+    /** Return new style's class */
+    const cardSelector = (sector, stack, index) => {
+        if(memory.sector === sector && memory.stack === stack && memory.index === index) {
+            return 'selector'
+        }
+        return ''
+  }
+    /** Open next card, whenever a card is removed of stack */
+    const openCard =  (sector, stack, cardIndex) => {
+        console.log(cardIndex)
+        if(cardIndex < 0) {
+            return
+        }
+        if(sector === 'field/'){
+            setOpen('field/'+stack, cardIndex, true)
+        }
+        
+    }
+    /**Change cards between stacks */
     const changeCard = (stack,cardIndex) =>{
         if(memory.stack){
             if(memory.stack === stack && memory.sector === 'field/') {
@@ -13,11 +33,16 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
                 return
             }
             if(Array.isArray(memory.cards)){
+                openCard(memory.sector, memory.stack, memory.index-1)
                 addDeck('field/'+stack, [...memory.cards])
                 removeMemory()
-                removeDeck(memory.sector+ memory.stack, memory.index)
+                
+                removeDeck(memory.sector + memory.stack, memory.index)
             }
         } else {
+            if(decks[stack].length === 0) {
+                return
+            }
             const recurrent = [...decks[stack].slice(cardIndex, decks[stack].length)]
             if(recurrent[0].open === false) {
                 return
@@ -34,7 +59,7 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
              />
         }
         return decks[key].map((card, index)=>{
-            return <img className={"card card-" +(index+1)}
+            return <img className={"card card-" +(index+1) + " "+ cardSelector('field/', key, index)}
                     alt={"card card-" +(index+1)}
                     src={ printCard(card.open ? card : 'verso') }
                     onClick={() => changeCard(key, index)}
@@ -56,7 +81,7 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
     const maxLengthArray = lengthsArray.reduce((value1, value2)=> {
         return Math.max(value1, value2)
     })
-    return <Style theme = {{ length: maxLengthArray }}>
+    return <Style theme = {{ length: maxLengthArray}}>
                      {printStack()}
             </Style>
 }
@@ -75,6 +100,7 @@ const mapDispatchToProps = dispatch => {
         removeDeck : (stack, index) => dispatch(remove(stack, index)),
         addMemory : (cards, sector, stack, index) => dispatch(addMemory(cards, sector, stack, index)),
         removeMemory : () => dispatch(removeMemory()),
+        setOpen: (stack, index, value) => dispatch(setOpen(stack, index, value)),
     }
 }
 

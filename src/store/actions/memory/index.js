@@ -9,7 +9,7 @@ export const addMemory = (cards,sector, stack,index) =>{
     }
 }
 
-export const removeMemory = ()=>{
+export const removeMemory = () => {
     return {
         type: '@MEMORY/REMOVE',
     }

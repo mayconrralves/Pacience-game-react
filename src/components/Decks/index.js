@@ -7,12 +7,22 @@ import Style from './Style'
 
 export  function Decks( { decks, memory, removeDeck, addDeck, addMemory, removeMemory, setOpen } ){
 
+     /** Return new style's class */
+     const cardSelector = (sector, stack, index) => {
+        if(memory.sector === 'main/' && memory.stack === 'stacks2' && memory.index === decks.stacks2.length-1) {
+            return 'selector'
+        }
+        return ''
+  }
     const changeCard = () => {
         if(memory.stack){
             removeMemory()
             return
         }
         else {
+            if(decks.stacks2.length === 0) {
+                return
+            }
            addMemory([decks.stacks2[decks.stacks2.length-1]], 'main/', 'stacks2', decks.stacks2.length-1)
         }
     }
@@ -34,12 +44,12 @@ export  function Decks( { decks, memory, removeDeck, addDeck, addMemory, removeM
     }
     return (
         <Style>
-                <img className="card" 
-                    alt={decks.stacks1.length > 0 ? 'card back of stack1 deck': 'blackground stack1 - End of Deck'} 
-                    src= { printCard( decks.stacks1.length > 0 ? 'verso': null ) }
-                    onClick={drawCard} />
                 <img className="card"
-                    alt={decks.stacks2.length > 0 ? 'card front of stack2 deck': 'blackground stack2 - End of Deck'} 
+                    alt={ decks.stacks1.length > 0 ? 'card back of stack1 deck': 'blackground stack1 - End of Deck' } 
+                    src= { printCard( decks.stacks1.length > 0 ? 'verso': null ) }
+                    onClick={ drawCard } />
+                <img className={ "card " + cardSelector() }
+                    alt={ decks.stacks2.length > 0 ? 'card front of stack2 deck': 'blackground stack2 - End of Deck' } 
                     src= { printCard( decks.stacks2.length >= 0 ? decks.stacks2[decks.stacks2.length-1] : null ) } 
                     onClick={ changeCard }
                 />

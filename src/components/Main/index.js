@@ -15,7 +15,6 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
   }
     /** Open next card, whenever a card is removed of stack */
     const openCard =  (sector, stack, cardIndex) => {
-        console.log(cardIndex)
         if(cardIndex < 0) {
             return
         }

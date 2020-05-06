@@ -14,7 +14,16 @@ export function FinalStacks( { final, memory, addDeck,addMemory, removeDeck, rem
         }
         return ''
   }
-
+    /** Open next card, whenever a card is removed of stack */
+    const openCard =  (sector, stack, cardIndex) => {
+        if(cardIndex < 0) {
+            return
+        }
+        if(sector === 'field/'){
+            setOpen('field/'+stack, cardIndex, true)
+        }
+        
+    }
     const changeCard = ( stack, cardIndex ) => {
         if(memory.stack){
             if(memory.sector === 'final/' && memory.stack === stack) {
@@ -26,10 +35,7 @@ export function FinalStacks( { final, memory, addDeck,addMemory, removeDeck, rem
                 return
             }
             if(Array.isArray(memory.cards)){
-                if(memory.sector === 'field/'){
-                    console.log("open", memory.stack, memory.index)
-                    setOpen(memory.sector + memory.stack, memory.index-1, true)
-                }
+                    openCard(memory.sector, memory.stack, memory.index-1)
                 if(memory.sector !== 'final/'){
                     addDeck('final/'+stack, [...memory.cards])
                     removeMemory()

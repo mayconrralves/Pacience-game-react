@@ -6,6 +6,19 @@ import { printCard } from '../../utils'
 import Style from './Style'
 
 export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemory, setOpen}){
+
+    const verifyNaipe = (naipe1, naipe2) => {
+        if(naipe1 === naipe2){
+            return false
+        }
+        return true
+    }
+    const verifyNumber =(number1, number2) => {
+        if(number1 === number2+1 ){
+            return true
+        }
+        return false
+    }
     /** Return new style's class */
     const cardSelector = (sector, stack, index) => {
         if(memory.sector === sector && memory.stack === stack && memory.index === index) {
@@ -31,6 +44,15 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
                 return
             }
             if(Array.isArray(memory.cards)){
+                
+                if(decks[stack].length === 0 && memory.cards[0].number !== 13){
+                    removeMemory()
+                    return
+                }
+                if(decks[stack].length > 0 && memory.cards[0].number === 13){
+                    removeMemory()
+                    return
+                }
                 openCard(memory.sector, memory.stack, memory.index-1)
                 addDeck('field/'+stack, [...memory.cards])
                 removeMemory()

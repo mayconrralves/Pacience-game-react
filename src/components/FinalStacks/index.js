@@ -44,16 +44,27 @@ export function FinalStacks( { final, memory, addDeck,addMemory, removeDeck, rem
                 return
             }
             
-                    openCard(memory.sector, memory.stack, memory.index-1)
-                if(memory.sector !== 'final/'){
-                   // if(final[stack].length > 0 && verifyCard(memory.cards))
-                    addDeck('final/'+stack, [...memory.cards])
-                    removeMemory()
-                    removeDeck(memory.sector + memory.stack, memory.index)
+            if(memory.sector !== 'final/'){
+                if(final[stack].length > 0){
+                    if(!verifyCard(memory.cards[0], final[stack][final[stack].length-1])){
+                        removeMemory()
+                        return
+                    } 
                 }else {
-                    removeMemory()
+                    if(memory.cards[0].number > 1){
+                        removeMemory()
+                        return
+                    }
                 }
                 
+                openCard(memory.sector, memory.stack, memory.index-1)
+                addDeck('final/'+stack, [...memory.cards])
+                removeMemory()
+                removeDeck(memory.sector + memory.stack, memory.index)
+            }else {
+                removeMemory()
+            }
+            
 
         } else {
             if(final[stack].length === 0) {

@@ -47,29 +47,29 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
                 return
             }
     
-                /**Is it king? */
-                if(decks[stack].length === 0 && memory.cards[0].number !== 13){
-                    removeMemory()
-                    return
-                }
-                if(decks[stack].length > 0 && memory.cards[0].number === 13){
-                    removeMemory()
-                    return
-                }
-                if(decks[stack].length > 0 && !verifyNaipe(memory.cards[0].naipe, decks[stack][decks[stack].length-1].naipe)){
-                    removeMemory()
-                    return
-                }
-                if(decks[stack].length > 0 && !verifyNumber(memory.cards[0].number, decks[stack][decks[stack].length-1].number)){
-                    removeMemory()
-                    return
-                }
-                openCard(memory.sector, memory.stack, memory.index-1)
-                addDeck('field/'+stack, [...memory.cards])
+            /**Is it king? */
+            if(decks[stack].length === 0 && memory.cards[0].number !== 13){
                 removeMemory()
-                
-                removeDeck(memory.sector + memory.stack, memory.index)
+                return
+            }
+            if(decks[stack].length > 0 && memory.cards[0].number === 13){
+                removeMemory()
+                return
+            }
+            if(decks[stack].length > 0 && !verifyNaipe(memory.cards[0].naipe, decks[stack][decks[stack].length-1].naipe)){
+                removeMemory()
+                return
+            }
+            if(decks[stack].length > 0 && !verifyNumber(memory.cards[0].number, decks[stack][decks[stack].length-1].number)){
+                removeMemory()
+                return
+            }
+            openCard(memory.sector, memory.stack, memory.index-1)
+            addDeck('field/'+stack, [...memory.cards])
+            removeMemory()
             
+            removeDeck(memory.sector + memory.stack, memory.index)
+        
         } else {
             if(decks[stack].length === 0) {
                 return

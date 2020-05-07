@@ -8,13 +8,16 @@ import Style from './Style'
 export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemory, setOpen}){
 
     const verifyNaipe = (naipe1, naipe2) => {
-        if(naipe1 === naipe2){
-            return false
+        if((naipe1 === 'ouros' || naipe1 === 'copas') && (naipe2 === 'espadas' || naipe2 === 'paus')){
+            return true
         }
-        return true
+        else if((naipe1 === 'paus' || naipe1 === 'espadas') && (naipe2 === 'ouros' || naipe2 === 'copas')){
+            return true
+        }
+        return false
     }
     const verifyNumber =(number1, number2) => {
-        if(number1 === number2+1 ){
+        if(number1 === number2-1 ){
             return true
         }
         return false
@@ -43,8 +46,8 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
                 removeMemory()
                 return
             }
-            if(Array.isArray(memory.cards)){
-                
+    
+                /**Is it king? */
                 if(decks[stack].length === 0 && memory.cards[0].number !== 13){
                     removeMemory()
                     return
@@ -53,12 +56,20 @@ export  function Main({decks, addDeck, memory, removeDeck, addMemory, removeMemo
                     removeMemory()
                     return
                 }
+                if(decks[stack].length > 0 && !verifyNaipe(memory.cards[0].naipe, decks[stack][decks[stack].length-1].naipe)){
+                    removeMemory()
+                    return
+                }
+                if(decks[stack].length > 0 && !verifyNumber(memory.cards[0].number, decks[stack][decks[stack].length-1].number)){
+                    removeMemory()
+                    return
+                }
                 openCard(memory.sector, memory.stack, memory.index-1)
                 addDeck('field/'+stack, [...memory.cards])
                 removeMemory()
                 
                 removeDeck(memory.sector + memory.stack, memory.index)
-            }
+            
         } else {
             if(decks[stack].length === 0) {
                 return

@@ -24,6 +24,15 @@ export function FinalStacks( { final, memory, addDeck,addMemory, removeDeck, rem
         }
         
     }
+    const verifyCard =(card1, card2) => {
+        if(card1.naipe !== card2.naipe ){
+            return false
+        }
+        if(card1.number === card2.number+1 ){
+            return true
+        }
+        return false
+    }
     const changeCard = ( stack, cardIndex ) => {
         if(memory.stack){
             if(memory.sector === 'final/' && memory.stack === stack) {
@@ -34,9 +43,10 @@ export function FinalStacks( { final, memory, addDeck,addMemory, removeDeck, rem
                 removeMemory()
                 return
             }
-            if(Array.isArray(memory.cards)){
+            
                     openCard(memory.sector, memory.stack, memory.index-1)
                 if(memory.sector !== 'final/'){
+                   // if(final[stack].length > 0 && verifyCard(memory.cards))
                     addDeck('final/'+stack, [...memory.cards])
                     removeMemory()
                     removeDeck(memory.sector + memory.stack, memory.index)
@@ -44,7 +54,7 @@ export function FinalStacks( { final, memory, addDeck,addMemory, removeDeck, rem
                     removeMemory()
                 }
                 
-            }
+
         } else {
             if(final[stack].length === 0) {
                 return
